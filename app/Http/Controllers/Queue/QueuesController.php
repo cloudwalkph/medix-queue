@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\Queue;
 use App\Models\QueueNumber;
+use App\Notifications\AppointmentCreated;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -55,6 +56,9 @@ class QueuesController extends Controller {
 
         if (count($result) > 0) {
             $request->session()->flash('success', 'Successfully added appointment into the queue');
+            $appointment = Appointment::where('id', $input['appointment_id'])->first();
+
+            $appointment->patient->notify(new AppointmentCreated($result[0]->queue_number));
 //            event(new QueueUpdated($result[0]));
         }
 

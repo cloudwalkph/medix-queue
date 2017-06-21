@@ -1,7 +1,7 @@
 <?php
 namespace App\Services;
 
-use App\SMS\Semaphore;
+use App\Services\SMS\Semaphore;
 
 class SMSMessage {
     private $to;

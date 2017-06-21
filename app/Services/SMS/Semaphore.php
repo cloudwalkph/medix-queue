@@ -1,5 +1,5 @@
 <?php
-namespace App\SMS;
+namespace App\Services\SMS;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
@@ -34,7 +34,7 @@ class Semaphore
             ],
             [
                 'name'  => 'sendername',
-                'contents'  => 'VIREEF'
+                'contents'  => 'MEDIX'
             ]
         ];
         $request = new Request('POST', $this->url);

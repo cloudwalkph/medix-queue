@@ -2,13 +2,13 @@
 
 namespace App\Notifications;
 
+use App\Channels\SemaphoreChannel;
 use App\Services\SMSMessage;
-use App\SMS\Semaphore;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AppointmentCreated extends Notification implements ShouldQueue
+class AppointmentCreated extends Notification
 {
     use Queueable;
 
@@ -32,7 +32,7 @@ class AppointmentCreated extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return [Semaphore::class, 'database'];
+        return [SemaphoreChannel::class, 'database'];
     }
 
     public function toSemaphore($notifiable)
