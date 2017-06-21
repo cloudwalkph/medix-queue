@@ -27,6 +27,9 @@
 <div style="padding: 0 20px">
     <div class="row">
         <div class="col-md-12">
+
+            @include('components.success')
+
             <div class="panel panel-default">
                 <div class="panel-heading"><h5>QUEUE Today</h5></div>
 
@@ -179,14 +182,20 @@
                         </thead>
 
                         <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                            @foreach ($appointments as $appointment)
+                                <tr>
+                                    <td>{{ $appointment->patient->full_name }}</td>
+                                    <td>{{ $appointment->user->profile->full_name }}</td>
+                                    <td>{{ \Carbon\Carbon::createFromTimestamp(strtotime($appointment->appointment_date . ' ' . $appointment->appointment_time))->format('F d, Y - h:i A') }}</td>
+                                    <td>{{ $appointment->chief_complaint }}</td>
+                                    <td>{{ $appointment->status }}</td>
+                                    <td>
+                                        <button class="btn btn-block btn-warning">
+                                            Add to queue
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
 
@@ -203,8 +212,9 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="createAppointmentModalLabel">Create Appointment</h4>
                     </div>
-                    <div class="modal-body">
-                        <form>
+                    <form method="POST" action="">
+                        <div class="modal-body">
+                            {{ csrf_field() }}
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
@@ -216,18 +226,19 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="control-label" for="appointment_date">APPOINTMENT DATE</label>
-                                        <input class="form-control" type="date" name="appointment_date" required />
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="control-label" for="appointment_time">APPOINTMENT TIME</label>
-                                        <input class="form-control" type="time" name="appointment_time" required />
-                                    </div>
-                                </div>
+
+                                {{--<div class="col-sm-6">--}}
+                                    {{--<div class="form-group">--}}
+                                        {{--<label class="control-label" for="appointment_date">APPOINTMENT DATE</label>--}}
+                                        {{--<input class="form-control" type="date" name="appointment_date" required />--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="col-sm-6">--}}
+                                    {{--<div class="form-group">--}}
+                                        {{--<label class="control-label" for="appointment_time">APPOINTMENT TIME</label>--}}
+                                        {{--<input class="form-control" type="time" name="appointment_time" required />--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
 
                                 <div class="col-sm-12">
                                     <div class="form-group">
@@ -237,12 +248,13 @@
                                 </div>
 
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Create Appointment</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
