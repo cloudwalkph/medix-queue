@@ -18,8 +18,8 @@ class CreateQueuesTable extends Migration
             $table->integer('appointment_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->enum('status', ['active', 'inactive']);
-            $table->timestamp('started_time');
-            $table->timestamp('completed_time');
+            $table->timestamp('started_time')->nullable();
+            $table->timestamp('completed_time')->nullable();
             $table->enum('facility', ['consultation', 'laboratory', 'xray']);
             $table->timestamps();
             $table->softDeletes();
@@ -27,6 +27,11 @@ class CreateQueuesTable extends Migration
             $table->foreign('appointment_id')
                 ->references('id')
                 ->on('appointments')
+                ->onDelete('cascade');
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
                 ->onDelete('cascade');
         });
     }
