@@ -27,6 +27,7 @@ class CreatePatientRequest extends FormRequest
             'first_name'     => 'required',
             'last_name'      => 'required',
             'gender'         => 'required',
+            'mobile_number'  => 'required',
         ];
     }
 }

@@ -31,6 +31,16 @@
 
     <div class="col-sm-12">
         <div class="form-group">
+            <label class="control-label col-sm-2" for="mobile_number">Mobile Number</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" name="mobile_number" required
+                       value='{{ isset( $patient->mobile_number ) ? $patient->mobile_number : "" }}'/>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="form-group">
             <label class="control-label col-sm-2" for="birthdate">Birthdate</label>
             <div class="col-sm-10">
                 <input class="form-control" type="date" name="birthdate" required

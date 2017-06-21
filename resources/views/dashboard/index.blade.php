@@ -159,7 +159,7 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <button class="btn btn-primary"
-                                    data-toggle="modal" data-target="#createAppointmentModal">Add Appointment</button>
+                                    data-toggle="modal" data-target="#createAppointmentModal"><i class="fa fa-plus" ></i> Add Appointment</button>
                         </div>
                     </div>
                 </div>
