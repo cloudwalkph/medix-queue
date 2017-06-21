@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\Patient;
+use App\Models\Queue;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -33,7 +34,11 @@ class HomeController extends Controller
             ->orderBy('appointment_time')
             ->get();
 
-        return view('dashboard.index', compact('patients', 'appointments'));
+        $queues = Queue::whereDate('created_at', '=', $today)
+            ->where('status', '<>', 'completed')
+            ->get();
+
+        return view('dashboard.index', compact('patients', 'appointments', 'queues'));
     }
 
     public function createAppointment(Request $request)

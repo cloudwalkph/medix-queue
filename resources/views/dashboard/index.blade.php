@@ -2,6 +2,11 @@
 
 @section('styles')
     <link rel="stylesheet" href="//cdn.datatables.net/v/bs/dt-1.10.15/sc-1.4.2/datatables.min.css">
+    <style>
+        #patientName {
+            font-weight: 600;
+        }
+    </style>
 @endsection
 
 @section('scripts')
@@ -19,6 +24,16 @@
                 maxItems: 1,
                 sortField: 'text'
             });
+
+            $('.add-to-queue').on('click', function() {
+                let patientName = $(this).data('patient');
+                let appointmentId = $(this).data('appointment');
+
+                $('#patientName').html(patientName);
+                $('#appointmentId').val(appointmentId);
+
+                console.log(appointmentId);
+            });
         });
     </script>
 @endsection
@@ -35,10 +50,10 @@
 
                 <div class="panel-body">
                     <ul class="nav nav-pills" role="tablist" id="myTabs">
-                        <li role="presentation" class="active"><a href="#all">All <span class="badge">42</span></a></li>
-                        <li role="presentation"><a href="#consultations">Consultations <span class="badge">3</span></a></li>
-                        <li role="presentation"><a href="#laboratories">Laboratories <span class="badge">3</span></a></li>
-                        <li role="presentation"><a href="#xrays">X-Rays <span class="badge">3</span></a></li>
+                        <li role="presentation" class="active"><a href="#all">All <span class="badge">{{ $queues->count() }}</span></a></li>
+                        <li role="presentation"><a href="#consultations">Consultations <span class="badge">{{ $queues->where('facility', 'consultation')->count() }}</span></a></li>
+                        <li role="presentation"><a href="#laboratories">Laboratories <span class="badge">{{ $queues->where('facility', 'laboratory')->count() }}</span></a></li>
+                        <li role="presentation"><a href="#xrays">X-Rays <span class="badge">{{ $queues->where('facility', 'xray')->count() }}</span></a></li>
                     </ul>
 
                     <br>
@@ -51,21 +66,21 @@
                                     <th>Queue #</th>
                                     <th>Facility</th>
                                     <th>Patient Name</th>
-                                    <th>Arrival Time</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td>Consultation</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                    @foreach($queues as $queue)
+                                        <tr>
+                                            <td>{{ $queue->queue_number }}</td>
+                                            <td>{{ ucwords($queue->facility) }}</td>
+                                            <td>{{ $queue->appointment->patient->full_name }}</td>
+                                            <td>{{ $queue->status }}</td>
+                                            <td></td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -77,21 +92,23 @@
                                     <th>Queue #</th>
                                     <th>Facility</th>
                                     <th>Patient Name</th>
-                                    <th>Arrival Time</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td>Consultation</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                @foreach($queues as $queue)
+                                    @if ($queue->facility === 'consultation')
+                                        <tr>
+                                            <td>{{ $queue->queue_number }}</td>
+                                            <td>{{ ucwords($queue->facility) }}</td>
+                                            <td>{{ $queue->appointment->patient->full_name }}</td>
+                                            <td>{{ $queue->status }}</td>
+                                            <td></td>
+                                        </tr>
+                                    @endif
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -103,21 +120,23 @@
                                     <th>Queue #</th>
                                     <th>Facility</th>
                                     <th>Patient Name</th>
-                                    <th>Arrival Time</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td>Laboratories</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                @foreach($queues as $queue)
+                                    @if ($queue->facility === 'laboratory')
+                                        <tr>
+                                            <td>{{ $queue->queue_number }}</td>
+                                            <td>{{ ucwords($queue->facility) }}</td>
+                                            <td>{{ $queue->appointment->patient->full_name }}</td>
+                                            <td>{{ $queue->status }}</td>
+                                            <td></td>
+                                        </tr>
+                                    @endif
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -129,21 +148,23 @@
                                     <th>Queue #</th>
                                     <th>Facility</th>
                                     <th>Patient Name</th>
-                                    <th>Arrival Time</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td>X-Ray</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                @foreach($queues as $queue)
+                                    @if ($queue->facility === 'xray')
+                                        <tr>
+                                            <td>{{ $queue->queue_number }}</td>
+                                            <td>{{ ucwords($queue->facility) }}</td>
+                                            <td>{{ $queue->appointment->patient->full_name }}</td>
+                                            <td>{{ $queue->status }}</td>
+                                            <td></td>
+                                        </tr>
+                                    @endif
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -190,9 +211,14 @@
                                     <td>{{ $appointment->chief_complaint }}</td>
                                     <td>{{ $appointment->status }}</td>
                                     <td>
-                                        <button class="btn btn-block btn-warning">
-                                            Add to queue
-                                        </button>
+                                        @if ($appointment->status === 'pending')
+                                            <button class="btn btn-block btn-warning add-to-queue"
+                                                    data-toggle="modal" data-target="#addPatientToQueueModal"
+                                                    data-patient="{{ $appointment->patient->full_name }}"
+                                                    data-appointment="{{ $appointment->id }}">
+                                                Add to queue
+                                            </button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -253,6 +279,30 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Create Appointment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add patient to queue Modal -->
+        <div class="modal fade" id="addPatientToQueueModal" tabindex="-1" role="dialog" aria-labelledby="addPatientToQueueModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="addPatientToQueueModalLabel">Add to Queue</h4>
+                    </div>
+                    <form method="POST" action="/queues">
+                        <div class="modal-body">
+                            {{ csrf_field() }}
+                            <h4>Are you sure to add <span id="patientName"></span> into the queue?</h4>
+                            <input type="hidden" name="appointment_id" id="appointmentId">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Confirm</button>
                         </div>
                     </form>
                 </div>
