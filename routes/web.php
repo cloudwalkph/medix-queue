@@ -18,3 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/dashboard', 'HomeController@index')->name('home');
+
+Route::group(['prefix' => 'queues', 'namespace' => 'Queue'], function() {
+    Route::get('/', 'QueuesController@queues');
+});
