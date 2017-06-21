@@ -51,7 +51,7 @@
                     </div>
                     <div class="col-md-6 text-right">
                         <a href="/users/create" class="btn btn-primary">
-                            <i class="fa fa-plus" ></i> ADD NEW USER
+                            <i class="fa fa-plus" ></i> Add User
                         </a>
                     </div>
                 </div>
