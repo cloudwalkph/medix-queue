@@ -21,6 +21,7 @@ class CreateUserProfilesTable extends Migration
             $table->string('middle_name')->nullable();
             $table->date('birthdate');
             $table->string('civil_status')->nullable();
+            $table->enum('gender', ['male', 'female']);
             $table->timestamps();
 
             $table->foreign('user_id')
