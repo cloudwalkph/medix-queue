@@ -37,35 +37,38 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Dashboard <span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">Users</a></li>
-                        <li><a href="#">Patients</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Queue <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Consultation</a></li>
-                                <li><a href="#">Laboratory</a></li>
-                                <li><a href="#">X-Ray</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Reports</a></li>
+                        @if (! Auth::guest())
+                            <li class="active"><a href="#">Dashboard <span class="sr-only">(current)</span></a></li>
+                            <li><a href="#">Users</a></li>
+                            <li><a href="#">Patients</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Queue <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Consultation</a></li>
+                                    <li><a href="#">Laboratory</a></li>
+                                    <li><a href="#">X-Ray</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Reports</a></li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <form class="navbar-form" role="search">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Search Patient" style="width: 300px;">
-                                </div>
-                                <button type="submit" class="btn btn-default">Search</button>
-                            </form>
-                        </li>
                         <!-- Authentication Links -->
                         @if (Auth::guest())
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
+                            <li>
+                                <form class="navbar-form" role="search">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Search Patient" style="width: 300px;">
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Search</button>
+                                </form>
+                            </li>
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->profile->first_name }} {{ Auth::user()->profile->last_name }} <span class="caret"></span>
