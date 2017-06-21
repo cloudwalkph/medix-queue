@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Queue;
 
+use App\Events\QueueUpdated;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\Queue;
@@ -20,7 +21,7 @@ class QueuesController extends Controller {
 
         // Create queues
         $result = null;
-        \DB::transaction(function() use ($input, &$request) {
+        \DB::transaction(function() use ($input, &$result) {
             $data = [
                 'appointment_id'    => $input['appointment_id'],
                 'user_id'           => 1,
@@ -52,8 +53,9 @@ class QueuesController extends Controller {
             $result[] = Queue::create($data);
         });
 
-        if ($result) {
+        if (count($result) > 0) {
             $request->session()->flash('success', 'Successfully added appointment into the queue');
+//            event(new QueueUpdated($result[0]));
         }
 
         return redirect()->back();

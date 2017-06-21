@@ -43,6 +43,34 @@
             font-weight: bold;
             color: #f4f4f4;
         }
+
+        @-webkit-keyframes argh-my-eyes {
+            0%   { background-color: #03A9F4; }
+            49% { background-color: #03A9F4; }
+            50% { background-color: #0173a5; }
+            99% { background-color: #0173a5; }
+            100% { background-color: #03A9F4; }
+        }
+        @-moz-keyframes argh-my-eyes {
+            0%   { background-color: #03A9F4; }
+            49% { background-color: #03A9F4; }
+            50% { background-color: #0173a5; }
+            99% { background-color: #0173a5; }
+            100% { background-color: #03A9F4; }
+        }
+        @keyframes argh-my-eyes {
+            0%   { background-color: #03A9F4; }
+            49% { background-color: #03A9F4; }
+            50% { background-color: #0173a5; }
+            99% { background-color: #0173a5; }
+            100% { background-color: #03A9F4; }
+        }
+
+        .blink {
+            -webkit-animation: argh-my-eyes 1s infinite;
+            -moz-animation:    argh-my-eyes 1s infinite;
+            animation:         argh-my-eyes 1s infinite;
+        }
     </style>
 @endsection
 
@@ -50,10 +78,27 @@
     <script>
         $(function () {
             resizeUI();
+            let audio = new Audio('/sounds/notification.mp3');
+            playNotificationSound();
 
             $(window).on('resize', function() {
                 resizeUI();
             });
+
+            Echo.channel(`queue`)
+                .listen('QueueUpdated', (e) => {
+                    console.log(e);
+                    let queueNumber = e.queue.queue_number;
+                    let facility = e.queue.facility;
+                    $('#' + facility + " .queue-number").html(queueNumber);
+
+                    playNotificationSound();
+                    $('#' + facility).addClass('blink');
+
+                    setTimeout(() => {
+                        $('#' + facility).removeClass('blink');
+                    }, 5000);
+                });
 
             function resizeUI() {
                 let windowHeight = $(window).height();
@@ -68,6 +113,10 @@
 
                 queueItem.css('height', queueItemSize + "px");
             }
+
+            function playNotificationSound() {
+                audio.play();
+            }
         })
     </script>
 @endsection
@@ -79,16 +128,16 @@
 
                 <div class="col-md-4">
                     <div class="row">
-                        <div class="col-md-12 queue-item">
+                        <div class="col-md-12 queue-item" id="consultation">
                             <div class="content">
                                 <p class="queue-number">00100</p>
-                                <p class="room">Consultation Room 1</p>
+                                <p class="room">Consultation Room</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12 queue-item">
+                        <div class="col-md-12 queue-item" id="xray">
                             <div class="content">
                                 <p class="queue-number">00102</p>
                                 <p class="room">X-Ray</p>
@@ -97,16 +146,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12 queue-item">
-                            <div class="content">
-                                <p class="queue-number">00103</p>
-                                <p class="room">Consultation Room 3</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12 queue-item">
+                        <div class="col-md-12 queue-item" id="laboratory">
                             <div class="content">
                                 <p class="queue-number">00104</p>
                                 <p class="room">Laboratory</p>
