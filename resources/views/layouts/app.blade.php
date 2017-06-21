@@ -12,6 +12,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('css/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/selectize/selectize.css') }}" rel="stylesheet">
     @yield('styles')
 </head>
 <body>
@@ -38,9 +41,9 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         @if (! Auth::guest())
-                            <li class="active"><a href="#">Dashboard <span class="sr-only">(current)</span></a></li>
-                            <li><a href="#">Users</a></li>
-                            <li><a href="#">Patients</a></li>
+                            <li class="active"><a href="/dashboard">Dashboard <span class="sr-only">(current)</span></a></li>
+                            <li><a href="/users">Users</a></li>
+                            <li><a href="/patients">Patients</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Queue <span class="caret"></span></a>
                                 <ul class="dropdown-menu">

@@ -51,3 +51,8 @@ if (token) {
 //     broadcaster: 'pusher',
 //     key: 'your-pusher-key'
 // });
+
+/**
+ * selectize
+ */
+window.selectize = require('../lib/selectize');
