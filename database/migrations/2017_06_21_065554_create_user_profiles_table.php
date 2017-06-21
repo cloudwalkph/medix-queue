@@ -28,6 +28,8 @@ class CreateUserProfilesTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
+
+            $table->softDeletes();
         });
     }
 

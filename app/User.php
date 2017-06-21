@@ -4,12 +4,13 @@ namespace App;
 
 use App\Models\Department;
 use App\Models\UserRole;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -36,7 +37,7 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->belongsTo(UserRole::class);
+        return $this->belongsTo(UserRole::class, 'user_role_id');
     }
 
     public function profile()
