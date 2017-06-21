@@ -20,6 +20,7 @@ class CreateAppointmentsTable extends Migration
             $table->date('appointment_date');
             $table->time('appointment_time');
             $table->text('chief_complaint');
+            $table->timestamp('arrival_time')->nullable();
             $table->enum('status', ['pending', 'in-queue', 'consultaion', 'laboratory', 'xray', 'completed', 'cancelled']);
             $table->timestamps();
             $table->softDeletes();

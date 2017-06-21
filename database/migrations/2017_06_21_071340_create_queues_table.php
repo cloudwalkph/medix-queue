@@ -17,6 +17,7 @@ class CreateQueuesTable extends Migration
             $table->increments('id');
             $table->integer('appointment_id')->unsigned();
             $table->integer('user_id')->unsigned();
+            $table->integer('queue_number');
             $table->enum('status', ['active', 'inactive']);
             $table->timestamp('started_time')->nullable();
             $table->timestamp('completed_time')->nullable();
