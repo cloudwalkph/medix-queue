@@ -1,8 +1,15 @@
 @extends('layouts.app')
 
+@section('styles')
+    <link rel="stylesheet" href="//cdn.datatables.net/v/bs/dt-1.10.15/sc-1.4.2/datatables.min.css">
+@endsection
+
 @section('scripts')
+    <script src="//cdn.datatables.net/v/bs/dt-1.10.15/sc-1.4.2/datatables.min.js"></script>
     <script>
         $(function() {
+            $('.table').DataTable();
+
             $('#myTabs a').click(function (e) {
                 e.preventDefault()
                 $(this).tab('show')
@@ -12,9 +19,9 @@
 @endsection
 
 @section('content')
-<div>
+<div style="padding: 0 20px">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">QUEUE Today</div>
 
@@ -138,9 +145,14 @@
         </div>
 
 
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Appointments Today</div>
+                <div class="panel-heading">
+                    Appointments Today
+
+                    <button class="btn btn-primary btn-sm pull-right"
+                            data-toggle="modal" data-target="#createAppointmentModal">Add Appointment</button>
+                </div>
 
                 <div class="panel-body">
 
@@ -171,6 +183,29 @@
                 </div>
             </div>
         </div>
+
+
+        <!-- Create Appointment Modal -->
+        <div class="modal fade" id="createAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="createAppointmentModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="createAppointmentModalLabel">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 @endsection
