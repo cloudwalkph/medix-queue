@@ -30,5 +30,13 @@ Route::group(['prefix' => 'users'], function () {
     Route::get('/update/{id}', 'UserController@edit');
     Route::post('/update/{id}', 'UserController@update');
     Route::delete('/{id}', 'UserController@destroy');
-    Route::get('/{id}', 'UserController@show');
+});
+
+Route::group(['prefix' => 'patients'], function () {
+    Route::get('/', 'PatientController@index');
+    Route::get('/create', 'PatientController@create');
+    Route::post('/create', 'PatientController@store');
+    Route::get('/update/{id}', 'PatientController@edit');
+    Route::post('/update/{id}', 'PatientController@update');
+    Route::delete('/{id}', 'PatientController@destroy');
 });

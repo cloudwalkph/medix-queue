@@ -14,6 +14,6 @@ class Patient extends Model
 
     public function getFullNameAttribute()
     {
-        return ucwords($this->attributes['first_name'] . ' ' . $this->attributes['last_name']);
+        return ucwords($this->attributes['first_name'] . ' ' . $this->attributes['middle_name']. ' ' . $this->attributes['last_name']);
     }
 }
