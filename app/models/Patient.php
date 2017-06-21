@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 class Patient extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Notifiable;
 
     protected $guarded = ['id'];
     protected $hidden = ['deleted_at'];

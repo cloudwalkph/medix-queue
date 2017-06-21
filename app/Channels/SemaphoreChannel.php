@@ -22,7 +22,7 @@ class SemaphoreChannel
         }
 
         // Send notification to the $notifiable instance...
-        $mobileNumber = $notifiable->profile->contact_mobile;
+        $mobileNumber = $notifiable->mobile_number;
 
         $semaphore->setTo($mobileNumber)
             ->send();
