@@ -28,7 +28,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">QUEUE Today</div>
+                <div class="panel-heading"><h5>QUEUE Today</h5></div>
 
                 <div class="panel-body">
                     <ul class="nav nav-pills" role="tablist" id="myTabs">
@@ -153,10 +153,15 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Appointments Today
-
-                    <button class="btn btn-primary btn-sm pull-right"
-                            data-toggle="modal" data-target="#createAppointmentModal">Add Appointment</button>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Appointments Today</h5>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <button class="btn btn-primary"
+                                    data-toggle="modal" data-target="#createAppointmentModal">Add Appointment</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="panel-body">

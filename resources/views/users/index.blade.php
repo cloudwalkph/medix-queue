@@ -47,7 +47,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-md-6">
-                        <h4>Users</h4>
+                        <h5>Users</h5>
                     </div>
                     <div class="col-md-6 text-right">
                         <a href="/users/create" class="btn btn-primary">

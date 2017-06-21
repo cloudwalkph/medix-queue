@@ -47,7 +47,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-md-6">
-                        <h4>Patient</h4>
+                        <h5>Patient</h5>
                     </div>
                     <div class="col-md-6 text-right">
                         <a href="/patients/create" class="btn btn-primary">
