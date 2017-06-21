@@ -14,6 +14,11 @@
                 e.preventDefault()
                 $(this).tab('show')
             })
+
+            $('#users').selectize({
+                maxItems: 1,
+                sortField: 'text'
+            });
         });
     </script>
 @endsection
@@ -191,11 +196,42 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="createAppointmentModalLabel">Modal title</h4>
+                        <h4 class="modal-title" id="createAppointmentModalLabel">Create Appointment</h4>
                     </div>
                     <div class="modal-body">
                         <form>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label" for="patient_id">PATIENT NAME</label>
+                                        <select name="patient_id" id="users">
+                                            @foreach($patients as $patient)
+                                                <option value="{{ $patient->id }}">{{ $patient->getFullNameAttribute() }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="appointment_date">APPOINTMENT DATE</label>
+                                        <input class="form-control" type="date" name="appointment_date" required />
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="appointment_time">APPOINTMENT TIME</label>
+                                        <input class="form-control" type="time" name="appointment_time" required />
+                                    </div>
+                                </div>
 
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label" for="chief_complaint">CHIEF COMPLAINT</label>
+                                        <textarea class="form-control" name="chief_complaint" cols="30" rows="10" style="resize: none;"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">

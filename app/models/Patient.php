@@ -11,4 +11,9 @@ class Patient extends Model
 
     protected $guarded = ['id'];
     protected $hidden = ['deleted_at'];
+
+    public function getFullNameAttribute()
+    {
+        return ucwords($this->attributes['first_name'] . ' ' . $this->attributes['last_name']);
+    }
 }
