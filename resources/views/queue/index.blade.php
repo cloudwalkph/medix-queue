@@ -78,7 +78,6 @@
     <script>
         $(function () {
             resizeUI();
-            let audio = new Audio('/sounds/notification.mp3');
             playNotificationSound();
 
             $(window).on('resize', function() {
@@ -115,6 +114,7 @@
             }
 
             function playNotificationSound() {
+                let audio = new Audio('/sounds/notification.mp3');
                 audio.play();
             }
         })

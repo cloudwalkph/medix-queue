@@ -103,6 +103,8 @@ class QueuesController extends Controller {
             'started_time'  => Carbon::today('Asia/Manila')->toDateTimeString()
         ]);
 
+        event(new QueueUpdated($queue));
+
         return redirect()->back();
     }
 
@@ -125,7 +127,22 @@ class QueuesController extends Controller {
             ->where('status', 'lock')
             ->update(['status' => 'available']);
 
+        $this->checkAllQueue($queue->appointment_id);
+
         return redirect()->back();
+    }
+
+    private function checkAllQueue($appointmentId)
+    {
+        $queues = Queue::where('appointment_id', $appointmentId)
+            ->where('status', '<>', 'completed')
+            ->get();
+
+        if ($queues->isEmpty()) {
+            // complete the appointment
+            Appointment::where('id', $appointmentId)
+                ->update(['status' => 'completed']);
+        }
     }
 
     private function generateQueueNumber()

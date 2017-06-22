@@ -378,6 +378,11 @@
                                     </div>
                                 </div>
 
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label><input type="checkbox" name="addToQueue" value="1"> Add to queue</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
