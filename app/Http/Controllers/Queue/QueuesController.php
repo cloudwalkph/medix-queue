@@ -7,6 +7,7 @@ use App\Models\Appointment;
 use App\Models\Queue;
 use App\Models\QueueNumber;
 use App\Notifications\AppointmentCreated;
+use App\Notifications\AppointmentUpdated;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -61,6 +62,68 @@ class QueuesController extends Controller {
             $appointment->patient->notify(new AppointmentCreated($result[0]->queue_number));
 //            event(new QueueUpdated($result[0]));
         }
+
+        return redirect()->back();
+    }
+
+    public function call(Request $request)
+    {
+        $input = $request->only(['queue_id']);
+
+        $queue = Queue::where('status', 'available')
+            ->where('id', $input['queue_id'])
+            ->first();
+
+        if ($queue) {
+            // lock others
+            Queue::where('queue_number', $queue->queue_number)
+                ->where('status', 'available')
+                ->where('id', '<>', $queue->id)
+                ->update(['status' => 'lock']);
+
+            event(new QueueUpdated($queue));
+            $queue->appointment->patient->notify(new AppointmentUpdated($queue));
+        }
+
+        return redirect()->back();
+    }
+
+    public function arrived(Request $request)
+    {
+        $input = $request->only(['queue_id']);
+        $user = $request->user();
+
+        $queue = Queue::where('status', 'available')
+            ->where('id', $input['queue_id'])
+            ->first();
+
+        $queue->update([
+            'user_id' => $user->id,
+            'status' => 'on-going',
+            'started_time'  => Carbon::today('Asia/Manila')->toDateTimeString()
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function completed(Request $request)
+    {
+        $input = $request->only(['queue_id']);
+        $user = $request->user();
+
+        $queue = Queue::where('status', 'on-going')
+            ->where('id', $input['queue_id'])
+            ->first();
+
+        $queue->update([
+            'user_id' => $user->id,
+            'status' => 'completed',
+            'completed_time'  => Carbon::today('Asia/Manila')->toDateTimeString()
+        ]);
+
+        Queue::where('queue_number', $queue->queue_number)
+            ->where('status', 'lock')
+            ->update(['status' => 'available']);
 
         return redirect()->back();
     }

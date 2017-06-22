@@ -34,6 +34,30 @@
 
                 console.log(appointmentId);
             });
+
+            $('.btn-call-queue').on('click', function() {
+                $('.btn').prop('disabled', true);
+
+                let queueId = $(this).data('queue');
+                $('.queue-id').val(queueId);
+                $('#callForm').submit();
+            });
+
+            $('.btn-arrived-queue').on('click', function() {
+                $('.btn').prop('disabled', true);
+
+                let queueId = $(this).data('queue');
+                $('.queue-id').val(queueId);
+                $('#arrivedForm').submit();
+            });
+
+            $('.btn-complete-queue').on('click', function() {
+                $('.btn').prop('disabled', true);
+
+                let queueId = $(this).data('queue');
+                $('.queue-id').val(queueId);
+                $('#completedForm').submit();
+            });
         });
     </script>
 @endsection
@@ -41,7 +65,9 @@
 @section('content')
 <div style="padding: 0 20px">
     <div class="row">
-        <div class="col-md-12">
+
+        @if (Auth::user()->role->slug === 'admin')
+            <div class="col-md-12">
 
             @include('components.success')
 
@@ -172,37 +198,35 @@
                 </div>
             </div>
         </div>
-
-
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h5>Appointments Today</h5>
-                        </div>
-                        <div class="col-md-6 text-right">
-                            <button class="btn btn-primary"
-                                    data-toggle="modal" data-target="#createAppointmentModal"><i class="fa fa-plus" ></i> Add Appointment</button>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Appointments Today</h5>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <button class="btn btn-primary"
+                                        data-toggle="modal" data-target="#createAppointmentModal"><i class="fa fa-plus" ></i> Add Appointment</button>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="panel-body">
+                    <div class="panel-body">
 
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Patient Name</th>
-                            <th>Encoded By</th>
-                            <th>Appointment Date/Time</th>
-                            <th>Chief Complaint</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Patient Name</th>
+                                <th>Encoded By</th>
+                                <th>Appointment Date/Time</th>
+                                <th>Chief Complaint</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
 
-                        <tbody>
+                            <tbody>
                             @foreach ($appointments as $appointment)
                                 <tr>
                                     <td>{{ $appointment->patient->full_name }}</td>
@@ -222,13 +246,94 @@
                                     </td>
                                 </tr>
                             @endforeach
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
 
+                    </div>
                 </div>
             </div>
-        </div>
 
+        @else
+            <div class="col-md-12">
+
+                @include('components.success')
+
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h5>QUEUE Today</h5></div>
+
+                    <div class="panel-body">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Queue #</th>
+                                <th>Facility</th>
+                                <th>Patient Name</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            @foreach($queues as $queue)
+                                @if ($queue->facility === Auth::user()->department->slug)
+                                <tr>
+                                    <td>{{ $queue->queue_number }}</td>
+                                    <td>{{ ucwords($queue->facility) }}</td>
+                                    <td>{{ $queue->appointment->patient->full_name }}</td>
+                                    <td>{{ $queue->status }}</td>
+                                    <td>
+                                        @if ($queue->status === 'available')
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <button class="btn btn-block btn-warning btn-call-queue"
+                                                        type="button"
+                                                        data-queue="{{ $queue->id }}">
+                                                        Notify
+                                                    </button>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <button class="btn btn-block btn-primary btn-arrived-queue"
+                                                        type="button"
+                                                        data-queue="{{ $queue->id }}">
+                                                        Arrived
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        @elseif ($queue->status === 'on-going')
+                                            <button class="btn btn-block btn-success btn-complete-queue"
+                                                    type="button"
+                                                    data-queue="{{ $queue->id }}">
+                                                Complete
+                                            </button>
+                                        @else
+                                            LOCK
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endif
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <form action="/queues/call" method="POST" id="callForm">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="queue_id" class="queue-id">
+                </form>
+
+                <form action="/queues/arrived" method="POST" id="arrivedForm">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="queue_id" class="queue-id">
+                </form>
+
+                <form action="/queues/completed" method="POST" id="completedForm">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="queue_id" class="queue-id">
+                </form>
+            </div>
+        @endif
 
         <!-- Create Appointment Modal -->
         <div class="modal fade" id="createAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="createAppointmentModalLabel">

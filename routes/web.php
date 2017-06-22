@@ -22,6 +22,9 @@ Route::post('/dashboard', 'HomeController@createAppointment');
 
 Route::group(['prefix' => 'queues', 'namespace' => 'Queue'], function() {
     Route::get('/', 'QueuesController@queues');
+    Route::post('/call', 'QueuesController@call');
+    Route::post('/arrived', 'QueuesController@arrived');
+    Route::post('/completed', 'QueuesController@completed');
     Route::post('/', 'QueuesController@addQueue');
 });
 

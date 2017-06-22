@@ -2,6 +2,8 @@
 
 namespace App\Notifications;
 
+use App\Channels\SemaphoreChannel;
+use App\Services\SMSMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,14 +13,16 @@ class AppointmentUpdated extends Notification
 {
     use Queueable;
 
+    protected $queueLocal;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($queueLocal)
     {
-        //
+        $this->queueLocal = $queueLocal;
     }
 
     /**
@@ -29,21 +33,15 @@ class AppointmentUpdated extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return [SemaphoreChannel::class, 'database'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
+    public function toSemaphore($notifiable)
     {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        $message = "Your QUEUE #: ".$this->queueLocal->queue_number . " please proceed to " . $this->queueLocal->facility;
+
+        return (new SMSMessage())
+            ->setMessage($message);
     }
 
     /**
@@ -55,7 +53,7 @@ class AppointmentUpdated extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'message'   => "QUEUE #: ".$this->queueLocal->queue_number." please proceed to " . $this->queueLocal->facility
         ];
     }
 }

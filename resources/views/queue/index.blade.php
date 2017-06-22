@@ -130,7 +130,7 @@
                     <div class="row">
                         <div class="col-md-12 queue-item" id="consultation">
                             <div class="content">
-                                <p class="queue-number">00100</p>
+                                <p class="queue-number">0000</p>
                                 <p class="room">Consultation Room</p>
                             </div>
                         </div>
@@ -139,7 +139,7 @@
                     <div class="row">
                         <div class="col-md-12 queue-item" id="xray">
                             <div class="content">
-                                <p class="queue-number">00102</p>
+                                <p class="queue-number">0000</p>
                                 <p class="room">X-Ray</p>
                             </div>
                         </div>
@@ -148,7 +148,7 @@
                     <div class="row">
                         <div class="col-md-12 queue-item" id="laboratory">
                             <div class="content">
-                                <p class="queue-number">00104</p>
+                                <p class="queue-number">0000</p>
                                 <p class="room">Laboratory</p>
                             </div>
                         </div>
@@ -157,6 +157,9 @@
 
                 <div class="col-md-8" id="ads">
                     YOU CAN PUT SOME ADS HERE
+                    <div class="logo">
+                        {{--<img src="/img/aventus.png" alt="aventus logo">--}}
+                    </div>
                 </div>
 
             </div>

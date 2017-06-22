@@ -44,15 +44,15 @@
                             <li class="active"><a href="/dashboard">Dashboard <span class="sr-only">(current)</span></a></li>
                             <li><a href="/users">Users</a></li>
                             <li><a href="/patients">Patients</a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Queue <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Consultation</a></li>
-                                    <li><a href="#">Laboratory</a></li>
-                                    <li><a href="#">X-Ray</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Reports</a></li>
+                            {{--<li class="dropdown">--}}
+                                {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Queue <span class="caret"></span></a>--}}
+                                {{--<ul class="dropdown-menu">--}}
+                                    {{--<li><a href="#">Consultation</a></li>--}}
+                                    {{--<li><a href="#">Laboratory</a></li>--}}
+                                    {{--<li><a href="#">X-Ray</a></li>--}}
+                                {{--</ul>--}}
+                            {{--</li>--}}
+                            {{--<li><a href="#">Reports</a></li>--}}
                         @endif
                     </ul>
 
